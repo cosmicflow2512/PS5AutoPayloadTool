@@ -1,0 +1,215 @@
+<UserControl x:Class="PS5AutoPayloadTool.Views.ScreenshotsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="{StaticResource BgBase}">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Page title -->
+        <TextBlock Grid.Row="0"
+                   Text="Screenshots"
+                   Style="{StaticResource PageTitle}"/>
+
+        <!-- ── Capture controls ─────────────────────────────────────────── -->
+        <Border Grid.Row="1" Style="{StaticResource Card}">
+            <StackPanel>
+                <TextBlock Text="CAPTURE" Style="{StaticResource SectionTitle}"/>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <Button x:Name="BtnCaptureAll"
+                            Content="All Screens"
+                            Style="{StaticResource BtnAccent}"
+                            Margin="0,0,8,0"
+                            Click="BtnCaptureAll_Click"/>
+                    <Button x:Name="BtnCapturePrimary"
+                            Content="Primary Screen"
+                            Style="{StaticResource Btn}"
+                            Margin="0,0,8,0"
+                            Click="BtnCapturePrimary_Click"/>
+                    <Button x:Name="BtnCaptureActive"
+                            Content="Active Window"
+                            Style="{StaticResource Btn}"
+                            Click="BtnCaptureActive_Click"/>
+                </StackPanel>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="Delay:"
+                                   Foreground="{StaticResource FgSubtle}"
+                                   FontSize="12" VerticalAlignment="Center"
+                                   Margin="0,0,6,0"/>
+                        <ComboBox x:Name="CmbDelay"
+                                  Width="90" FontSize="11">
+                            <ComboBoxItem Content="None" Tag="0" IsSelected="True"/>
+                            <ComboBoxItem Content="1 sec"  Tag="1000"/>
+                            <ComboBoxItem Content="3 sec"  Tag="3000"/>
+                            <ComboBoxItem Content="5 sec"  Tag="5000"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <CheckBox Grid.Column="2"
+                              x:Name="ChkClipboard"
+                              Content="Copy to clipboard"
+                              IsChecked="True"
+                              Foreground="{StaticResource FgMain}"
+                              FontSize="12"
+                              VerticalAlignment="Center"/>
+
+                    <CheckBox Grid.Column="4"
+                              x:Name="ChkHideApp"
+                              Content="Hide this window during capture"
+                              IsChecked="True"
+                              Foreground="{StaticResource FgMain}"
+                              FontSize="12"
+                              VerticalAlignment="Center"/>
+                </Grid>
+
+                <TextBlock x:Name="TxtStatus"
+                           Foreground="{StaticResource Green}"
+                           FontSize="12"
+                           Margin="0,10,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- ── Gallery toolbar ──────────────────────────────────────────── -->
+        <Grid Grid.Row="2" Margin="0,6,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock x:Name="TxtGalleryHeader"
+                       Text="GALLERY"
+                       Style="{StaticResource SectionTitle}"
+                       VerticalAlignment="Center"
+                       Margin="0"/>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button Content="Refresh"
+                        Style="{StaticResource Btn}"
+                        Margin="0,0,6,0"
+                        Click="BtnRefresh_Click"/>
+                <Button Content="Open Folder"
+                        Style="{StaticResource Btn}"
+                        Margin="0,0,6,0"
+                        Click="BtnOpenFolder_Click"/>
+                <Button Content="Delete All"
+                        Style="{StaticResource BtnDanger}"
+                        Click="BtnDeleteAll_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- ── Gallery list ─────────────────────────────────────────────── -->
+        <Border Grid.Row="3"
+                Background="{StaticResource BgMantle}"
+                BorderBrush="{StaticResource BgSurface}"
+                BorderThickness="1"
+                CornerRadius="8">
+            <Grid>
+                <TextBlock x:Name="TxtEmpty"
+                           Text="No screenshots yet. Click a capture button above."
+                           Foreground="{StaticResource FgSubtle}"
+                           FontSize="12" FontStyle="Italic"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Visibility="Collapsed"/>
+
+                <ListBox x:Name="Gallery"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         Padding="8"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         VirtualizingPanel.IsVirtualizing="True"
+                         VirtualizingPanel.VirtualizationMode="Recycling">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Background"      Value="Transparent"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Padding"         Value="0"/>
+                            <Setter Property="Margin"          Value="0"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <ContentPresenter/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="240" Margin="6"
+                                    Background="{StaticResource BgBase}"
+                                    BorderBrush="{StaticResource BgSurface}"
+                                    BorderThickness="1"
+                                    CornerRadius="6"
+                                    Padding="8">
+                                <StackPanel>
+                                    <Border Background="#0F0F17"
+                                            CornerRadius="4"
+                                            Height="130"
+                                            Margin="0,0,0,8">
+                                        <Image Source="{Binding Thumbnail}"
+                                               Stretch="Uniform"
+                                               Cursor="Hand"
+                                               Tag="{Binding FilePath}"
+                                               MouseLeftButtonUp="Image_Click"/>
+                                    </Border>
+                                    <TextBlock Text="{Binding FileName}"
+                                               Foreground="{StaticResource FgMain}"
+                                               FontSize="11"
+                                               FontFamily="Consolas"
+                                               TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Text="{Binding Meta}"
+                                               Foreground="{StaticResource FgSubtle}"
+                                               FontSize="10"
+                                               Margin="0,2,0,6"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="Open"
+                                                Style="{StaticResource Btn}"
+                                                Padding="8,3" FontSize="11"
+                                                Margin="0,0,4,0"
+                                                Tag="{Binding FilePath}"
+                                                Click="BtnOpen_Click"/>
+                                        <Button Content="Copy Path"
+                                                Style="{StaticResource Btn}"
+                                                Padding="8,3" FontSize="11"
+                                                Margin="0,0,4,0"
+                                                Tag="{Binding FilePath}"
+                                                Click="BtnCopyPath_Click"/>
+                                        <Button Content="Delete"
+                                                Style="{StaticResource BtnDanger}"
+                                                Padding="8,3" FontSize="11"
+                                                Tag="{Binding FilePath}"
+                                                Click="BtnDelete_Click"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

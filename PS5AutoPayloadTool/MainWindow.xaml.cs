@@ -36,6 +36,7 @@ public partial class MainWindow : Window
     private readonly ProfilesPage    _profilesPage    = new();
     private readonly SettingsPage    _settingsPage    = new();
     private readonly LogsPage        _logsPage        = new();
+    private readonly ScreenshotsPage _screenshotsPage = new();
 
     // ── Port indicator brushes ───────────────────────────────────────────────
 
@@ -101,6 +102,13 @@ public partial class MainWindow : Window
         if (ContentArea == null) return;
         ContentArea.Content = _logsPage;
         _logsPage.Refresh();
+    }
+
+    private void NavScreenshots_Checked(object sender, RoutedEventArgs e)
+    {
+        if (ContentArea == null) return;
+        ContentArea.Content = _screenshotsPage;
+        _screenshotsPage.Refresh();
     }
 
     // ── Public helpers called by pages ───────────────────────────────────────

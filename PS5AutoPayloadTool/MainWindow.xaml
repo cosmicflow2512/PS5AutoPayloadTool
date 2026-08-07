@@ -93,6 +93,11 @@
                              GroupName="Nav"
                              Checked="NavProfiles_Checked"
                              Style="{StaticResource NavBtn}"/>
+                <RadioButton x:Name="NavScreenshots"
+                             Content="&#x25A3;  Screenshots"
+                             GroupName="Nav"
+                             Checked="NavScreenshots_Checked"
+                             Style="{StaticResource NavBtn}"/>
                 <RadioButton x:Name="NavSettings"
                              Content="&#x2699;  Settings"
                              GroupName="Nav"

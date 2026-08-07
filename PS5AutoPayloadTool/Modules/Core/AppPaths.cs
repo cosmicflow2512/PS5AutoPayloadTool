@@ -28,6 +28,9 @@ public static class AppPaths
     /// <summary>Rotating log files.</summary>
     public static string LogsDir => Path.Combine(Base, "logs");
 
+    /// <summary>PNG screenshots captured via the Screenshots page.</summary>
+    public static string ScreenshotsDir => Path.Combine(Base, "screenshots");
+
     /// <summary>
     /// Called once on startup. Creates every required directory if it does not
     /// already exist. Safe to call multiple times (no-op when dirs exist).
@@ -39,5 +42,6 @@ public static class AppPaths
         Directory.CreateDirectory(ProfilesDir);
         Directory.CreateDirectory(CacheDir);
         Directory.CreateDirectory(LogsDir);
+        Directory.CreateDirectory(ScreenshotsDir);
     }
 }
